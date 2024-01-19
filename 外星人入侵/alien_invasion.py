@@ -5,6 +5,7 @@ import pygame
 from settings import Settings
 from ship import Ship
 from bullet import Bullet
+from alien import Alien
 
 class AlienInvasion:
     def __init__(self):#初始化游戏并创建游戏资源
@@ -17,6 +18,9 @@ class AlienInvasion:
 
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
+        self.aliens = pygame.sprite.Group()
+
+        self._create_fleet()
         
     def run_game(self):
         #开始游戏的主循环
@@ -74,6 +78,10 @@ class AlienInvasion:
         for bullet in self.bullets.copy():
             if bullet.rect.bottom <= 0:
                 self.bullets.remove(bullet)
+
+    def _create_fleet(self):
+        alien = Alien(self)
+        self.aliens.add(alien)
 
 if __name__ == "__main__":
     #创建实例并运行
