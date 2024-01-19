@@ -23,11 +23,10 @@ class AlienInvasion:
         while True:
             self._check_events()
             self.ship.update()
-            self.bullets.update()
             self._update_screen()
             self.clock.tick(60)#帧率控制
+            self._update_bullets()
 
-            
     def _check_events(self):
             #监听鼠标与键盘事件
         for event in pygame.event.get():
@@ -56,16 +55,25 @@ class AlienInvasion:
   
     def _fire_bullet(self):
         #创建子弹,并加入编组
-        new_bullet = Bullet(self)
-        self.bullets.add(new_bullet)
+        if len(self.bullets) < self.settings.bullets_allowed:#子弹数设置
+            new_bullet = Bullet(self)
+            self.bullets.add(new_bullet)
 
     def _update_screen(self):
-            #每次循环重绘屏幕
-            self.screen.fill(self.settings.bg_color)
-            self.ship.blitme()
+        #每次循环重绘屏幕
+        self.screen.fill(self.settings.bg_color)
+        self.ship.blitme()
             #最近绘制的屏幕可见
-            pygame.display.flip()
+        for bullet in self.bullets.sprites():
+            bullet.draw_bullet()
+        
+        pygame.display.flip()
     
+    def _update_bullets(self):
+        self.bullets.update()
+        for bullet in self.bullets.copy():
+            if bullet.rect.bottom <= 0:
+                self.bullets.remove(bullet)
 
 if __name__ == "__main__":
     #创建实例并运行

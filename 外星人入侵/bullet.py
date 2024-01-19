@@ -1,6 +1,5 @@
-from typing import Any
 import pygame
-from pygame.sprite import _Group, Sprite
+from pygame.sprite import Sprite
 
 class Bullet(Sprite):
     def __init__(self, ai_game):
@@ -12,7 +11,7 @@ class Bullet(Sprite):
     
         #(0,0)创建子弹并移动到合适位置
         self.rect = pygame.Rect(0, 0, self.settings.bullet_width, self.settings.bullet_height)
-        self.rect.midtop = ai_game.rect.midtop
+        self.rect.midtop = ai_game.ship.rect.midtop
 
         #储存浮点数
         self.y = float(self.rect.y)
@@ -22,4 +21,4 @@ class Bullet(Sprite):
         self.rect.y = self.y
 
     def draw_bullet(self):
-            pygame.draw.rect(self.screen, self.color, self.rect)
+        pygame.draw.rect(self.screen, self.color, self.rect)
